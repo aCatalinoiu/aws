@@ -12,7 +12,7 @@ public interface ClientService {
 	
 	public List<Client> getAll();
 	
-	public Optional<Client> getClient(Long id);
+	public Optional<Client> getClientById(Long id);
 	
 	public Client addClient(Client client);
 	

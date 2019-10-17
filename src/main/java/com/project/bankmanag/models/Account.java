@@ -17,7 +17,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="Accounts")
 public class Account {
 	@Column(name="account_id")
 	private @Id @GeneratedValue(strategy = GenerationType.AUTO) Long id;

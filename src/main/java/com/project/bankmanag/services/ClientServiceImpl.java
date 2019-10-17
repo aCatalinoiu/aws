@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.project.bankmanag.exceptions.ClientExistException;
 import com.project.bankmanag.models.Client;
 import com.project.bankmanag.repositories.ClientRepository;
 
@@ -35,7 +36,7 @@ public class ClientServiceImpl implements ClientService {
 	}
 	
 	@Override
-	public Optional<Client> getClient(Long id){
+	public Optional<Client> getClientById(Long id){
 		Optional<Client> clientFound = null;
 		try {
 			LOG.info("Getting the client with the given id:" + id);
@@ -54,6 +55,7 @@ public class ClientServiceImpl implements ClientService {
 			newClient = clientRepository.save(client);
 		} catch(Exception e){
 			LOG.error("An error ocurred during adding client:" + e.getMessage());
+			throw new ClientExistException(client.getCnp());
 		}
 		return newClient;
 	}
@@ -61,7 +63,7 @@ public class ClientServiceImpl implements ClientService {
 	@Override
 	public Client updateClient(Client clientToUpdate, Long id){
 		// exception nullpointer
-		Client foundClient = clientRepository.findById(id).get();
+		Client foundClient = getClientById(id).get();
 		try {
 			LOG.info("Updating client...");
 			// add Client setAll
@@ -83,4 +85,6 @@ public class ClientServiceImpl implements ClientService {
 			LOG.error("An error ocurred during deleting client:" + e.getMessage());
 		}
 	}
+	
+	
 }

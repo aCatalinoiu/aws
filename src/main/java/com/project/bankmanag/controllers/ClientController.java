@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.bankmanag.exceptions.ClientNotFoundException;
 import com.project.bankmanag.models.Client;
 import com.project.bankmanag.services.ClientService;
-import com.project.bankmanag.exceptions.ClientNotFoundException;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -41,14 +41,17 @@ public class ClientController {
 	@PostMapping
 	@ApiOperation("Add new client")
 	// id
-	Long newClient(@RequestBody @Valid Client newClient) {
-		 return clientService.addClient(newClient).getClientId();
+	ResponseEntity<Long> newClient(@RequestBody @Valid Client newClient) {
+		Long clientId = clientService.addClient(newClient).getClientId();
+		if(clientId.equals(null)){
+			return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
+		} else return new ResponseEntity<>(clientId, HttpStatus.CREATED);
 	}
 	
 	@GetMapping("{id}")
 	@ApiOperation("Find client by Id")
-	Client getClient(@PathVariable Long id){
-		return clientService.getClient(id).orElseThrow(() -> new ClientNotFoundException(id));
+	Client getClientById(@PathVariable Long id){
+		return clientService.getClientById(id).orElseThrow(() -> new ClientNotFoundException(id));
 	}
 	
 	@PutMapping("{id}")
@@ -60,7 +63,7 @@ public class ClientController {
 	@DeleteMapping("{id}")
 	@ApiOperation("Delete client by Id")
 	ResponseEntity<Object> removeClient(@PathVariable Long id){
-		if(!getClient(id).equals(null)){
+		if(!getClientById(id).equals(null)){
 			clientService.deleteClient(id);
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		} else
