@@ -40,7 +40,6 @@ public class ClientController {
 	
 	@PostMapping
 	@ApiOperation("Add new client")
-	// id
 	ResponseEntity<Long> newClient(@RequestBody @Valid Client newClient) {
 		Long clientId = clientService.addClient(newClient).getClientId();
 		if(clientId.equals(null)){
@@ -51,7 +50,7 @@ public class ClientController {
 	@GetMapping("{id}")
 	@ApiOperation("Find client by Id")
 	Client getClientById(@PathVariable Long id){
-		return clientService.getClientById(id).orElseThrow(() -> new ClientNotFoundException(id));
+		return clientService.getClientById(id);
 	}
 	
 	@PutMapping("{id}")
@@ -66,7 +65,6 @@ public class ClientController {
 		if(!getClientById(id).equals(null)){
 			clientService.deleteClient(id);
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-		} else
-			return new ResponseEntity<>(new ClientNotFoundException(id), HttpStatus.BAD_REQUEST);
+		} else throw new ClientNotFoundException(id);
 	}
 }

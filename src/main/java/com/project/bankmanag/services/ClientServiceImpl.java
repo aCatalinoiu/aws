@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.bankmanag.exceptions.ClientExistException;
+import com.project.bankmanag.exceptions.ClientNotFoundException;
 import com.project.bankmanag.models.Client;
 import com.project.bankmanag.repositories.ClientRepository;
 
@@ -36,15 +37,11 @@ public class ClientServiceImpl implements ClientService {
 	}
 	
 	@Override
-	public Optional<Client> getClientById(Long id){
-		Optional<Client> clientFound = null;
-		try {
-			LOG.info("Getting the client with the given id:" + id);
-			clientFound = clientRepository.findById(id);
-		} catch(Exception e){
-			LOG.error("An error ocurred during getting client:" + e.getMessage());
-		}
-		return clientFound;
+	public Client getClientById(Long id){
+		Optional<Client> client = clientRepository.findById(id);
+		if(client.isPresent())
+			return client.get();
+		else throw new ClientNotFoundException(id);
 	}
 	
 	@Override
@@ -62,18 +59,13 @@ public class ClientServiceImpl implements ClientService {
 	
 	@Override
 	public Client updateClient(Client clientToUpdate, Long id){
-		// exception nullpointer
-		Client foundClient = getClientById(id).get();
-		try {
-			LOG.info("Updating client...");
-			// add Client setAll
-			foundClient.populate(clientToUpdate.getFirstName(), clientToUpdate.getLastName(), clientToUpdate.getCnp(), clientToUpdate.getPoB(),
-					clientToUpdate.getDoB());
-			return clientRepository.save(foundClient);
-		} catch(Exception e){
-			LOG.error("An error ocurred during updating client:" + e.getMessage());
-		}
-		return clientToUpdate;
+		Optional<Client> foundClient = clientRepository.findById(id);
+		if(foundClient.isPresent()){
+			Client clientUpdated = foundClient.get();
+					clientUpdated.populate(clientToUpdate.getFirstName(), clientToUpdate.getLastName(), clientToUpdate.getCnp(), clientToUpdate.getPoB(),
+						clientToUpdate.getDoB());
+			return clientRepository.save(clientUpdated);
+		} else throw new ClientNotFoundException(id);
 	}
 	
 	@Override

@@ -1,7 +1,6 @@
 package com.project.bankmanag.services;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -12,7 +11,7 @@ public interface ClientService {
 	
 	public List<Client> getAll();
 	
-	public Optional<Client> getClientById(Long id);
+	public Client getClientById(Long id);
 	
 	public Client addClient(Client client);
 	
