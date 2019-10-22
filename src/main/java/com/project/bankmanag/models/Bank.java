@@ -1,7 +1,7 @@
 package com.project.bankmanag.models;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,7 +19,7 @@ public class Bank {
 	private @Column(name="swift_code") String swiftCode;
 	
 	@OneToMany
-	private Set<Client> client = new HashSet<>();
+	private List<Client> client = new ArrayList<>();
 	
 	public Long getId() {
 		return id;

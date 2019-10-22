@@ -12,6 +12,7 @@ public class Type {
 	@Column(name="transaction_type")
 	private @Id @GeneratedValue(strategy = GenerationType.AUTO) Long id;
 	@NotNull(message = "Please provide a name")
+	@Column(unique=true)
 	private String name;
 	
 	public Long getId() {
