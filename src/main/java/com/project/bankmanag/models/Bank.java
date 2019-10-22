@@ -10,10 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-import org.springframework.stereotype.Component;
-
 @Entity
-@Component
 public class Bank {
 	@Column(name="bank_id")
 	private @Id @GeneratedValue(strategy = GenerationType.AUTO) Long id;

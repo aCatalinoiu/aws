@@ -1,9 +1,9 @@
-package com.project.bankmanag.exceptions;
+package com.project.bankmanag.exceptions.client;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(HttpStatus.BAD_REQUEST)
+@ResponseStatus(HttpStatus.CONFLICT)
 public class ClientExistException extends RuntimeException {
 	/**
 	 * 

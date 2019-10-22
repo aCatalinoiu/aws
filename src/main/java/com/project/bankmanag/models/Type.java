@@ -2,19 +2,23 @@ package com.project.bankmanag.models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Type {
 	@Column(name="transaction_type")
-	private @Id int type;
+	private @Id @GeneratedValue(strategy = GenerationType.AUTO) Long id;
+	@NotNull(message = "Please provide a name")
 	private String name;
 	
-	public int getType() {
-		return type;
+	public Long getId() {
+		return id;
 	}
-	public void setType(int type) {
-		this.type = type;
+	public void setId(Long id) {
+		this.id = id;
 	}
 	public String getName() {
 		return name;
@@ -22,6 +26,5 @@ public class Type {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
 	
 }

@@ -1,13 +1,13 @@
-package com.project.bankmanag.exceptions;
+package com.project.bankmanag.exceptions.type;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.NOT_FOUND)
-public class ClientNotFoundException extends RuntimeException {
+public class TypeNotFoundException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
 
-	public ClientNotFoundException(Long id){
-		super("Could not find client " + id);
+	public TypeNotFoundException(Long id){
+		super("Could not find Type " + id);
 	}
 }
