@@ -15,6 +15,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
+import io.swagger.annotations.ApiModelProperty;
+
 enum CurrencyType {
 	EURO(0.859382032),
 	POUNDS(1.16362684);
@@ -33,6 +35,7 @@ enum CurrencyType {
 @Entity
 public class Account {
 	@Column(name="account_id")
+	@ApiModelProperty(required = false, hidden = true)
 	private @Id @GeneratedValue(strategy = GenerationType.AUTO) Long id;
 	@NotNull(message = "Please provide an amount")
 	private BigDecimal amount;
