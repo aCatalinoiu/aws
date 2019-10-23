@@ -12,11 +12,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
+
+import io.swagger.annotations.ApiModelProperty;
 	
 
 @Entity
 public class Transaction {
-	@Column(name="transaction_id")
+	@Column(name="transaction_id") @ApiModelProperty(required = false, hidden = true)
 	private @Id @GeneratedValue(strategy = GenerationType.AUTO) Long id;
 	@NotNull(message = "Please provide an amount")
 	private @Column(name="transaction_amount") BigDecimal amount;

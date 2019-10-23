@@ -10,9 +10,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import io.swagger.annotations.ApiModelProperty;
+
 @Entity
 public class Bank {
-	@Column(name="bank_id")
+	@Column(name="bank_id") @ApiModelProperty(required = false, hidden = true)
 	private @Id @GeneratedValue(strategy = GenerationType.AUTO) Long id;
 	private String name;
 	private String address;

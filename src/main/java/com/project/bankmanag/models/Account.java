@@ -96,7 +96,5 @@ public class Account {
 		this.currencyName = currencyName;
 		this.accountName = accountName;
 	}
-	
-	
-	
+
 }

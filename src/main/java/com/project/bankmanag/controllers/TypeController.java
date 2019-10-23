@@ -36,14 +36,14 @@ public class TypeController {
 	
 	@GetMapping
 	@ApiOperation("Find all Types")
-	@ApiResponses(value = @ApiResponse(code = 200, message = "List of Types received successfully"))
+	@ApiResponses(value = @ApiResponse(code = 200, message = "List of types received successfully"))
 	List<Type> findAll() {
         return typeService.getAll();
 	 } 
 	
 	@PostMapping
 	@ApiOperation("Add new Type")
-	@ApiResponses(value = {@ApiResponse(code = 201, message = "Type created successfully"), @ApiResponse(code = 400, message = "A Type already exists with same CNP")})
+	@ApiResponses(value = {@ApiResponse(code = 201, message = "Type created successfully"), @ApiResponse(code = 409, message = "A type already exists with same name"), @ApiResponse(code = 400, message = "Field validation failed")})
 	ResponseEntity<Long> newType(@RequestBody @Valid Type newType) {
 		Long typeId = typeService.addType(newType).getId();
 		if(typeId.equals(null)){
@@ -51,23 +51,23 @@ public class TypeController {
 		} else return new ResponseEntity<>(typeId, HttpStatus.CREATED);
 	}
 	
-	@GetMapping("{id}")
+	@GetMapping("{typeId}")
 	@ApiOperation("Find Type by Id")
-	@ApiResponses(value = {@ApiResponse(code = 200, message = "Type found"),@ApiResponse(code = 404, message = "Could not find Type")})
+	@ApiResponses(value = {@ApiResponse(code = 200, message = "Type found"),@ApiResponse(code = 404, message = "Could not find type")})
 	Type getTypeById(@PathVariable Long id){
 		return typeService.getTypeById(id);
 	}
 	
-	@PutMapping("{id}")
+	@PutMapping("{typeId}")
 	@ApiOperation("Update Type")
-	@ApiResponses(value = {@ApiResponse(code = 200, message = "Type updated successfully"),@ApiResponse(code = 404, message = "Could not find Type to update"),@ApiResponse(code = 400, message = "Field validation failed")})
+	@ApiResponses(value = {@ApiResponse(code = 200, message = "Type updated successfully"),@ApiResponse(code = 404, message = "Could not find type to update"),@ApiResponse(code = 400, message = "Field validation failed")})
 	Type updateType(@RequestBody @Valid Type newType, @PathVariable Long id){
 		return typeService.updateType(newType, id);
 	}
 	
-	@DeleteMapping("{id}")
+	@DeleteMapping("{typeId}")
 	@ApiOperation("Delete Type by Id")
-	@ApiResponses(value = {@ApiResponse(code = 204, message = "Type deleted successfully"),@ApiResponse(code = 404, message = "Could not find Type to delete")})
+	@ApiResponses(value = {@ApiResponse(code = 204, message = "Type deleted successfully"),@ApiResponse(code = 404, message = "Could not find type to delete")})
 	ResponseEntity<Object> removeType(@PathVariable Long id){
 		if(!getTypeById(id).equals(null)){
 			typeService.deleteType(id);

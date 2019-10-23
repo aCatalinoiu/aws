@@ -7,9 +7,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
+import io.swagger.annotations.ApiModelProperty;
+
 @Entity
 public class Type {
-	@Column(name="transaction_type")
+	@Column(name="transaction_type") @ApiModelProperty(required = false, hidden = true)
 	private @Id @GeneratedValue(strategy = GenerationType.AUTO) Long id;
 	@NotNull(message = "Please provide a name")
 	@Column(unique=true)
