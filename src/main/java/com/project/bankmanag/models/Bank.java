@@ -1,7 +1,7 @@
 package com.project.bankmanag.models;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,10 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-import org.springframework.stereotype.Component;
-
 @Entity
-@Component
 public class Bank {
 	@Column(name="bank_id")
 	private @Id @GeneratedValue(strategy = GenerationType.AUTO) Long id;
@@ -22,7 +19,7 @@ public class Bank {
 	private @Column(name="swift_code") String swiftCode;
 	
 	@OneToMany
-	private Set<Client> client = new HashSet<>();
+	private List<Client> client = new ArrayList<>();
 	
 	public Long getId() {
 		return id;

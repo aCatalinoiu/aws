@@ -7,27 +7,46 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.MapsId;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+import io.swagger.annotations.ApiModelProperty;
+
+enum CurrencyType {
+	EURO(0.859382032),
+	POUNDS(1.16362684);
+	
+	private double exchangeRate;
+	
+	private CurrencyType(double exchangeRate){
+		this.exchangeRate = exchangeRate;
+	}
+	
+	public double getExchangeRate(){
+		return this.exchangeRate;
+	}
+}
 
 @Entity
-@Table(name="Accounts")
 public class Account {
 	@Column(name="account_id")
+	@ApiModelProperty(required = false, hidden = true)
 	private @Id @GeneratedValue(strategy = GenerationType.AUTO) Long id;
+	@NotNull(message = "Please provide an amount")
 	private BigDecimal amount;
+	@NotNull(message = "Please provide an IBAN")
 	private @Column(unique=true) String IBAN;
+	@NotNull(message = "Please provide a pincode")
 	private @Column(name="pin_code") int pinCode;
-	@JoinColumn(name="currency_id")
-	@OneToOne
-	@MapsId
-	private Currency currency;
+	@NotNull(message = "Please provide a currencyName")
+	@Enumerated(EnumType.STRING)
+	private @Column(name="currency_name") CurrencyType currencyName;
+	@NotNull(message = "Please provide an account name")
 	private @Column(name="account_name") String accountName;
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<Transaction> transactions = new ArrayList<>();
@@ -57,16 +76,24 @@ public class Account {
 	public void setPinCode(int pinCode) {
 		this.pinCode = pinCode;
 	}
-	public Currency getCurrency() {
-		return currency;
+	public CurrencyType getCurrencyName() {
+		return currencyName;
 	}
-	public void setCurrency(Currency currency) {
-		this.currency = currency;
+	public void setCurrencyName(CurrencyType currencyName) {
+		this.currencyName = currencyName;
 	}
 	public String getAccountName() {
 		return accountName;
 	}
 	public void setAccountName(String accountName) {
+		this.accountName = accountName;
+	}
+	
+	public void populate(BigDecimal amount, String iban, int pinCode, CurrencyType currencyName, String accountName){
+		this.amount = amount;
+		this.IBAN = iban;
+		this.pinCode = pinCode;
+		this.currencyName = currencyName;
 		this.accountName = accountName;
 	}
 	

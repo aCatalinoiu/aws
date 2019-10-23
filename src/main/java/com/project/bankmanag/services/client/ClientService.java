@@ -1,18 +1,14 @@
-package com.project.bankmanag.services;
+package com.project.bankmanag.services.client;
 
 import java.util.List;
-import java.util.Optional;
-
-import org.springframework.stereotype.Service;
 
 import com.project.bankmanag.models.Client;
 
-@Service
 public interface ClientService {
 	
 	public List<Client> getAll();
 	
-	public Optional<Client> getClient(Long id);
+	public Client getClientById(Long id);
 	
 	public Client addClient(Client client);
 	
