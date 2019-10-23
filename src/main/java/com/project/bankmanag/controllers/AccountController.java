@@ -36,14 +36,14 @@ public class AccountController {
 	
 	@GetMapping
 	@ApiOperation("Find all Accounts")
-	@ApiResponses(value = @ApiResponse(code = 200, message = "List of Accounts received successfully"))
+	@ApiResponses(value = @ApiResponse(code = 200, message = "List of accounts received successfully"))
 	List<Account> findAll() {
         return accountService.getAll();
 	 } 
 	
 	@PostMapping
 	@ApiOperation("Add new Account")
-	@ApiResponses(value = {@ApiResponse(code = 201, message = "Account created successfully"), @ApiResponse(code = 400, message = "A Account already exists with same CNP")})
+	@ApiResponses(value = {@ApiResponse(code = 201, message = "Account created successfully"), @ApiResponse(code = 409, message = "An account already exists with same IBAN"), @ApiResponse(code = 400, message = "Field validation failed")})
 	ResponseEntity<Long> newAccount(@RequestBody @Valid Account newAccount) {
 		Long accountId = accountService.addAccount(newAccount).getId();
 		if(accountId.equals(null)){
@@ -51,23 +51,23 @@ public class AccountController {
 		} else return new ResponseEntity<>(accountId, HttpStatus.CREATED);
 	}
 	
-	@GetMapping("{id}")
+	@GetMapping("{accountId}")
 	@ApiOperation("Find Account by Id")
-	@ApiResponses(value = {@ApiResponse(code = 200, message = "Account found"),@ApiResponse(code = 404, message = "Could not find Account")})
+	@ApiResponses(value = {@ApiResponse(code = 200, message = "Account found"),@ApiResponse(code = 404, message = "Could not find account")})
 	Account getAccountById(@PathVariable Long id){
 		return accountService.getAccountById(id);
 	}
 	
-	@PutMapping("{id}")
+	@PutMapping("{accountId}")
 	@ApiOperation("Update Account")
-	@ApiResponses(value = {@ApiResponse(code = 200, message = "Account updated successfully"),@ApiResponse(code = 404, message = "Could not find Account to update"),@ApiResponse(code = 400, message = "Field validation failed")})
+	@ApiResponses(value = {@ApiResponse(code = 200, message = "Account updated successfully"),@ApiResponse(code = 404, message = "Could not find account to update"),@ApiResponse(code = 400, message = "Field validation failed")})
 	Account updateAccount(@RequestBody @Valid Account newAccount, @PathVariable Long id){
 		return accountService.updateAccount(newAccount, id);
 	}
 	
-	@DeleteMapping("{id}")
+	@DeleteMapping("{accountId}")
 	@ApiOperation("Delete Account by Id")
-	@ApiResponses(value = {@ApiResponse(code = 204, message = "Account deleted successfully"),@ApiResponse(code = 404, message = "Could not find Account to delete")})
+	@ApiResponses(value = {@ApiResponse(code = 204, message = "Account deleted successfully"),@ApiResponse(code = 404, message = "Could not find account to delete")})
 	ResponseEntity<Object> removeAccount(@PathVariable Long id){
 		if(!getAccountById(id).equals(null)){
 			accountService.deleteAccount(id);
