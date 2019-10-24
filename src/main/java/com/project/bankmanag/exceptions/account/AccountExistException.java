@@ -10,7 +10,7 @@ public class AccountExistException extends RuntimeException {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public AccountExistException(String iban){
+	public AccountExistException(String iban) {
 		super("Account already exists with the given IBAN: " + iban);
 	}
 }

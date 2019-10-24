@@ -18,61 +18,64 @@ import com.project.bankmanag.repositories.AccountRepository;
 public class AccountServiceImpl implements AccountService {
 	private Logger LOG = LoggerFactory.getLogger(AccountService.class);
 	private AccountRepository AccountRepository;
-	
+
 	@Autowired
 	public void setAccountRepository(AccountRepository AccountRepository) {
 		this.AccountRepository = AccountRepository;
 	}
-	
+
 	@Override
-	public List<Account> getAll(){
+	public List<Account> getAll() {
 		List<Account> Accounts = new ArrayList<>();
 		try {
 			LOG.info("Getting all Accounts...");
 			Accounts = AccountRepository.findAll();
-		} catch (Exception e){
+		} catch (Exception e) {
 			LOG.error("An error ocurred during getting all Accounts:" + e.getMessage());
 		}
 		return Accounts;
 	}
-	
+
 	@Override
-	public Account getAccountById(Long id){
+	public Account getAccountById(Long id) {
 		Optional<Account> Account = AccountRepository.findById(id);
-		if(Account.isPresent())
+		if (Account.isPresent())
 			return Account.get();
-		else throw new AccountNotFoundException(id);
+		else
+			throw new AccountNotFoundException(id);
 	}
-	
+
 	@Override
-	public Account addAccount(Account Account){
+	public Account addAccount(Account Account) {
 		Account newAccount = new Account();
 		try {
 			LOG.info("Adding new Account...");
 			newAccount = AccountRepository.save(Account);
-		} catch(Exception e){
+		} catch (Exception e) {
 			LOG.error("An error ocurred during adding Account:" + e.getMessage());
 			throw new AccountExistException(Account.getIBAN());
 		}
 		return newAccount;
 	}
-	
+
 	@Override
-	public Account updateAccount(Account AccountToUpdate, Long id){
+	public Account updateAccount(Account AccountToUpdate, Long id) {
 		Optional<Account> foundAccount = AccountRepository.findById(id);
-		if(foundAccount.isPresent()){
+		if (foundAccount.isPresent()) {
 			Account AccountUpdated = foundAccount.get();
-					AccountUpdated.populate(AccountToUpdate.getAmount(), AccountToUpdate.getIBAN(), AccountToUpdate.getPinCode(), AccountToUpdate.getCurrencyName(), AccountToUpdate.getAccountName());
+			AccountUpdated.populate(AccountToUpdate.getAmount(), AccountToUpdate.getIBAN(),
+					AccountToUpdate.getPinCode(), AccountToUpdate.getCurrencyName(), AccountToUpdate.getAccountName());
 			return AccountRepository.save(AccountUpdated);
-		} else throw new AccountNotFoundException(id);
+		} else
+			throw new AccountNotFoundException(id);
 	}
-	
+
 	@Override
-	public void deleteAccount(Long id){
+	public void deleteAccount(Long id) {
 		try {
 			LOG.info("Deleting Account...");
 			AccountRepository.delete(AccountRepository.findById(id).get());
-		} catch(Exception e){
+		} catch (Exception e) {
 			LOG.error("An error ocurred during deleting Account:" + e.getMessage());
 		}
 	}
