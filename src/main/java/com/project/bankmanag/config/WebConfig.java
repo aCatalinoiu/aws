@@ -13,17 +13,16 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
 @EnableSwagger2
-
 public class WebConfig implements WebMvcConfigurer {
-	
-    @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/").setViewName("redirect:/swagger-ui.html");
-    }
-    
-    @Bean
-    public Docket api() {
-        return new Docket(DocumentationType.SWAGGER_2).select().apis(RequestHandlerSelectors.any())
-                .paths(PathSelectors.any()).build();
-    }
+
+	@Override
+	public void addViewControllers(ViewControllerRegistry registry) {
+		registry.addViewController("/").setViewName("redirect:/swagger-ui.html");
+	}
+
+	@Bean
+	public Docket api() {
+		return new Docket(DocumentationType.SWAGGER_2).select().apis(RequestHandlerSelectors.any())
+				.paths(PathSelectors.any()).build();
+	}
 }

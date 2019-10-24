@@ -18,78 +18,87 @@ import javax.validation.constraints.NotNull;
 import io.swagger.annotations.ApiModelProperty;
 
 enum CurrencyType {
-	EURO(0.859382032),
-	POUNDS(1.16362684);
-	
+	EURO(0.859382032), POUNDS(1.16362684);
+
 	private double exchangeRate;
-	
-	private CurrencyType(double exchangeRate){
+
+	private CurrencyType(double exchangeRate) {
 		this.exchangeRate = exchangeRate;
 	}
-	
-	public double getExchangeRate(){
+
+	public double getExchangeRate() {
 		return this.exchangeRate;
 	}
 }
 
 @Entity
 public class Account {
-	@Column(name="account_id")
+	@Column(name = "account_id")
 	@ApiModelProperty(required = false, hidden = true)
 	private @Id @GeneratedValue(strategy = GenerationType.AUTO) Long id;
 	@NotNull(message = "Please provide an amount")
 	private BigDecimal amount;
 	@NotNull(message = "Please provide an IBAN")
-	private @Column(unique=true) String IBAN;
+	private @Column(unique = true) String IBAN;
 	@NotNull(message = "Please provide a pincode")
-	private @Column(name="pin_code") int pinCode;
+	private @Column(name = "pin_code") int pinCode;
 	@NotNull(message = "Please provide a currencyName")
 	@Enumerated(EnumType.STRING)
-	private @Column(name="currency_name") CurrencyType currencyName;
+	private @Column(name = "currency_name") CurrencyType currencyName;
 	@NotNull(message = "Please provide an account name")
-	private @Column(name="account_name") String accountName;
+	private @Column(name = "account_name") String accountName;
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<Transaction> transactions = new ArrayList<>();
-	
-	
+
 	public Long getId() {
 		return id;
 	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
+
 	public BigDecimal getAmount() {
 		return amount;
 	}
+
 	public void setAmount(BigDecimal amount) {
 		this.amount = amount;
 	}
+
 	public String getIBAN() {
 		return IBAN;
 	}
+
 	public void setIBAN(String iBAN) {
 		IBAN = iBAN;
 	}
+
 	public int getPinCode() {
 		return pinCode;
 	}
+
 	public void setPinCode(int pinCode) {
 		this.pinCode = pinCode;
 	}
+
 	public CurrencyType getCurrencyName() {
 		return currencyName;
 	}
+
 	public void setCurrencyName(CurrencyType currencyName) {
 		this.currencyName = currencyName;
 	}
+
 	public String getAccountName() {
 		return accountName;
 	}
+
 	public void setAccountName(String accountName) {
 		this.accountName = accountName;
 	}
-	
-	public void populate(BigDecimal amount, String iban, int pinCode, CurrencyType currencyName, String accountName){
+
+	public void populate(BigDecimal amount, String iban, int pinCode, CurrencyType currencyName, String accountName) {
 		this.amount = amount;
 		this.IBAN = iban;
 		this.pinCode = pinCode;

@@ -17,7 +17,8 @@ import io.swagger.annotations.ApiModelProperty;
 
 @Entity
 public class Client {
-	@Column(name = "client_id") @ApiModelProperty(required = false, hidden = true)
+	@Column(name = "client_id")
+	@ApiModelProperty(required = false, hidden = true)
 	private @Id @GeneratedValue(strategy = GenerationType.AUTO) Long clientId;
 	@NotNull(message = "Please provide a firstName")
 	private @Column(name = "first_name") String firstName;

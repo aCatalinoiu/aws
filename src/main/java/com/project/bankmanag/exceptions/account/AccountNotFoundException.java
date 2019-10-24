@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class AccountNotFoundException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
 
-	public AccountNotFoundException(Long id){
+	public AccountNotFoundException(Long id) {
 		super("Could not find account " + id);
 	}
 }
