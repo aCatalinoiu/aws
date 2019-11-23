@@ -38,7 +38,7 @@ public class AccountController {
 	@GetMapping
 	@ApiOperation("Find all Accounts")
 	@ApiResponses(value = @ApiResponse(code = 200, message = "List of accounts received successfully"))
-	List<Account> findAll() {
+	public List<Account> findAll() {
 		return accountService.getAll();
 	}
 
@@ -47,7 +47,7 @@ public class AccountController {
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Account created successfully"),
 			@ApiResponse(code = 409, message = "An account already exists with same IBAN"),
 			@ApiResponse(code = 400, message = "Field validation failed") })
-	ResponseEntity<Object> newAccount(@RequestBody @Valid Account newAccount) {
+	public ResponseEntity<Object> newAccount(@RequestBody @Valid Account newAccount) {
 		Long accountId = accountService.addAccount(newAccount).getId();
 		if (accountId.equals(null)) {
 			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
@@ -62,7 +62,7 @@ public class AccountController {
 	@ApiOperation("Find Account by Id")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Account found"),
 			@ApiResponse(code = 404, message = "Could not find account") })
-	Account getAccountById(@PathVariable Long accountId) {
+	public Account getAccountById(@PathVariable Long accountId) {
 		return accountService.getAccountById(accountId);
 	}
 
@@ -71,7 +71,7 @@ public class AccountController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Account updated successfully"),
 			@ApiResponse(code = 404, message = "Could not find account to update"),
 			@ApiResponse(code = 400, message = "Field validation failed") })
-	Account updateAccount(@RequestBody @Valid Account newAccount, @PathVariable Long accountId) {
+	public Account updateAccount(@RequestBody @Valid Account newAccount, @PathVariable Long accountId) {
 		return accountService.updateAccount(newAccount, accountId);
 	}
 
@@ -79,11 +79,9 @@ public class AccountController {
 	@ApiOperation("Delete Account by Id")
 	@ApiResponses(value = { @ApiResponse(code = 204, message = "Account deleted successfully"),
 			@ApiResponse(code = 404, message = "Could not find account to delete") })
-	ResponseEntity<Object> removeAccount(@PathVariable Long accountId) {
-		if (!getAccountById(accountId).equals(null)) {
-			accountService.deleteAccount(accountId);
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-		} else
-			throw new AccountNotFoundException(accountId);
+	public ResponseEntity<Object> removeAccount(@PathVariable Long accountId) {
+	    getAccountById(accountId);
+	    accountService.deleteAccount(accountId);
+	    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 }

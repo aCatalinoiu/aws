@@ -38,7 +38,7 @@ public class ClientController {
 	@GetMapping
 	@ApiOperation("Find all clients")
 	@ApiResponses(value = @ApiResponse(code = 200, message = "List of clients received successfully"))
-	List<Client> findAll() {
+	public List<Client> findAll() {
 		return clientService.getAll();
 	}
 
@@ -47,14 +47,13 @@ public class ClientController {
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Client created successfully"),
 			@ApiResponse(code = 409, message = "A client already exists with same CNP"),
 			@ApiResponse(code = 400, message = "Field validation failed") })
-	ResponseEntity<Object> newClient(@RequestBody @Valid Client newClient) {
+	public ResponseEntity<Object> newClient(@RequestBody @Valid Client newClient) {
 		Long clientId = clientService.addClient(newClient).getClientId();
 		if (clientId.equals(null)) {
 			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 		} else {
-			JSONObject clientObj = new JSONObject();
-			clientObj.put("id", clientId);
-			return new ResponseEntity<>(clientObj.toJSONString(), HttpStatus.CREATED);
+
+			return new ResponseEntity<>(HttpStatus.CREATED);
 		}
 	}
 
@@ -62,7 +61,7 @@ public class ClientController {
 	@ApiOperation("Find client by Id")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Client found"),
 			@ApiResponse(code = 404, message = "Could not find client") })
-	Client getClientById(@PathVariable Long clientId) {
+	public Client getClientById(@PathVariable Long clientId) {
 		return clientService.getClientById(clientId);
 	}
 
@@ -71,19 +70,17 @@ public class ClientController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Client updated successfully"),
 			@ApiResponse(code = 404, message = "Could not find client to update"),
 			@ApiResponse(code = 400, message = "Field validation failed") })
-	Client updateClient(@RequestBody @Valid Client newClient, @PathVariable Long clientId) {
-		return clientService.updateClient(newClient, clientId);
+	public Client updateClient(@RequestBody @Valid Client newClient, @PathVariable Long clientId) {
+		return clientService.updateClient(newClient);
 	}
 
 	@DeleteMapping("{clientId}")
 	@ApiOperation("Delete client by Id")
 	@ApiResponses(value = { @ApiResponse(code = 204, message = "Client deleted successfully"),
 			@ApiResponse(code = 404, message = "Could not find client to delete") })
-	ResponseEntity<Object> removeClient(@PathVariable Long clientId) {
-		if (!getClientById(clientId).equals(null)) {
-			clientService.deleteClient(clientId);
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-		} else
-			throw new ClientNotFoundException(clientId);
+	public ResponseEntity<Object> removeClient(@PathVariable Long clientId) {
+	    getClientById(clientId);
+	    clientService.deleteClient(clientId);
+	    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 }

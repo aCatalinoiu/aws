@@ -17,54 +17,58 @@ import io.swagger.annotations.ApiModelProperty;
 
 @Entity
 public class Transaction {
-	@Column(name = "transaction_id")
-	@ApiModelProperty(required = false, hidden = true)
-	private @Id @GeneratedValue(strategy = GenerationType.AUTO) Long id;
-	@NotNull(message = "Please provide an amount")
-	private @Column(name = "transaction_amount") BigDecimal amount;
-	@NotNull(message = "Please provide a date")
-	private @Column(name = "transaction_date") Date date;
-	// TODO: add clientId
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "transaction_type")
-	// TODO: validare
-	private Type type;
+    @Column(name = "transaction_id")
+    @ApiModelProperty(required = false, hidden = true)
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    @NotNull(message = "Please provide an amount")
+    @Column(name = "transaction_amount")
+    private double amount;
+    @NotNull(message = "Please provide a date")
+    @Column(name = "transaction_date")
+    private Date date;
+    // TODO: add clientId
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "transaction_type")
+    // TODO: validare
+    private Type type;
 
-	public Long getId() {
-		return id;
-	}
+    public Long getId() {
+	return id;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public void setId(Long id) {
+	this.id = id;
+    }
 
-	public BigDecimal getAmount() {
-		return amount;
-	}
+    public double getAmount() {
+	return amount;
+    }
 
-	public void setAmount(BigDecimal amount) {
-		this.amount = amount;
-	}
+    public void setAmount(double amount) {
+	this.amount = amount;
+    }
 
-	public Date getDate() {
-		return date;
-	}
+    public Date getDate() {
+	return date;
+    }
 
-	public void setDate(Date date) {
-		this.date = date;
-	}
+    public void setDate(Date date) {
+	this.date = date;
+    }
 
-	public Type getType() {
-		return type;
-	}
+    public Type getType() {
+	return type;
+    }
 
-	public void setType(Type type) {
-		this.type = type;
-	}
+    public void setType(Type type) {
+	this.type = type;
+    }
 
-	public void populate(BigDecimal amount, Date date, Type type) {
-		this.amount = amount;
-		this.date = date;
-		this.type = type;
-	}
+    public void populate(double amount, Date date, Type type) {
+	this.amount = amount;
+	this.date = date;
+	this.type = type;
+    }
 }

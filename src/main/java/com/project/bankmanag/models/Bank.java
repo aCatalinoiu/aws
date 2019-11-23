@@ -14,46 +14,51 @@ import io.swagger.annotations.ApiModelProperty;
 
 @Entity
 public class Bank {
-	@Column(name = "bank_id")
-	@ApiModelProperty(required = false, hidden = true)
-	private @Id @GeneratedValue(strategy = GenerationType.AUTO) Long id;
-	private String name;
-	private String address;
-	private @Column(name = "swift_code") String swiftCode;
 
-	@OneToMany
-	private List<Client> client = new ArrayList<>();
+    @Column
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    @Column
+    private String name;
+    @Column
+    private String address;
+    @Column
+    private String swiftCode;
 
-	public Long getId() {
-		return id;
-	}
+    @OneToMany
+    private List<Client> client = new ArrayList<>();
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public Long getId() {
+	return id;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public void setId(Long id) {
+	this.id = id;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getName() {
+	return name;
+    }
 
-	public String getAddress() {
-		return address;
-	}
+    public void setName(String name) {
+	this.name = name;
+    }
 
-	public void setAddress(String address) {
-		this.address = address;
-	}
+    public String getAddress() {
+	return address;
+    }
 
-	public String getSwiftCode() {
-		return swiftCode;
-	}
+    public void setAddress(String address) {
+	this.address = address;
+    }
 
-	public void setSwiftCode(String swiftCode) {
-		this.swiftCode = swiftCode;
-	}
+    public String getSwiftCode() {
+	return swiftCode;
+    }
+
+    public void setSwiftCode(String swiftCode) {
+	this.swiftCode = swiftCode;
+    }
 
 }

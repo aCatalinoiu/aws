@@ -16,26 +16,13 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
 import io.swagger.annotations.ApiModelProperty;
-
-enum CurrencyType {
-	EURO(0.859382032), POUNDS(1.16362684);
-
-	private double exchangeRate;
-
-	private CurrencyType(double exchangeRate) {
-		this.exchangeRate = exchangeRate;
-	}
-
-	public double getExchangeRate() {
-		return this.exchangeRate;
-	}
-}
-
 @Entity
 public class Account {
+
+
 	@Column(name = "account_id")
-	@ApiModelProperty(required = false, hidden = true)
-	private @Id @GeneratedValue(strategy = GenerationType.AUTO) Long id;
+	@Id @GeneratedValue(strategy = GenerationType.AUTO)
+	private  Long id;
 	@NotNull(message = "Please provide an amount")
 	private BigDecimal amount;
 	@NotNull(message = "Please provide an IBAN")
@@ -98,12 +85,13 @@ public class Account {
 		this.accountName = accountName;
 	}
 
-	public void populate(BigDecimal amount, String iban, int pinCode, CurrencyType currencyName, String accountName) {
+	public Account(BigDecimal amount, String iban, int pinCode, CurrencyType currencyName, String accountName) {
 		this.amount = amount;
 		this.IBAN = iban;
 		this.pinCode = pinCode;
 		this.currencyName = currencyName;
 		this.accountName = accountName;
 	}
+
 
 }
